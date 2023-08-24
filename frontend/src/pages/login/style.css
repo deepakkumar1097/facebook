@@ -228,6 +228,15 @@
 }
 /*----dob and gender errors-----*/
 
+/*----error and success --------*/
+.error_text {
+  color: #b94a40;
+}
+.success_text {
+  color: var(--green-color);
+}
+/*----error and success --------*/
+
 /*----Media queries--------------*/
 @media (min-width: 539px) {
   .login_footer_wrap {

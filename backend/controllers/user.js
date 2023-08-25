@@ -19,9 +19,9 @@ exports.register = async (req, res) => {
       email,
       username,
       password,
-      birth_year,
-      birth_month,
-      birth_day,
+      bYear,
+      bMonth,
+      bDay,
       gender,
     } = req.body;
 
@@ -69,9 +69,9 @@ exports.register = async (req, res) => {
       email,
       username: newUserName,
       password: cryptedPassword,
-      birth_year,
-      birth_month,
-      birth_day,
+      bYear,
+      bMonth,
+      bDay,
       gender,
     }).save();
 

@@ -42,26 +42,31 @@ const userSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    // gender: {
+    //   type: String,
+    //   required: [true, "gender is required"],
+    //   enum: {
+    //     values: ["Male", "Female", "Others"],
+    //     message: "gender is required.",
+    //   },
+    //   trim: true,
+    // },
     gender: {
       type: String,
       required: [true, "gender is required"],
-      enum: {
-        values: ["Male", "Female", "Others"],
-        message: "gender is required.",
-      },
       trim: true,
     },
-    birth_year: {
+    bYear: {
       type: Number,
       required: true,
       trim: true,
     },
-    birth_month: {
+    bMonth: {
       type: Number,
       required: true,
       trim: true,
     },
-    birth_day: {
+    bDay: {
       type: Number,
       required: true,
       trim: true,

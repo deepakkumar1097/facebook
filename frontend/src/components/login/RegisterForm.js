@@ -1,10 +1,18 @@
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import RegisterInput from "../inputs/registerInput";
+import { useDispatch } from "react-redux";
+import DotLoader from "react-spinners/DotLoader";
+import axios from "axios";
 import * as Yup from "yup";
+import cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+
+import RegisterInput from "../inputs/registerInput";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelct";
 export default function RegisterForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -65,7 +73,32 @@ export default function RegisterForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const registerSubmit = async () => {};
+  const registerSubmit = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:7500/register", {
+        first_name,
+        last_name,
+        email,
+        password,
+        bYear,
+        bMonth,
+        bDay,
+        gender,
+      });
+      setError("");
+      setSuccess(data.message);
+      const { message, ...rest } = data;
+      setTimeout(() => {
+        dispatch({ type: "LOGIN", payload: rest });
+        cookies.set("user", JSON.stringify(rest));
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      setSuccess("");
+      setError(error.response.data.message);
+    }
+  };
   return (
     <div className="blur">
       <div className="register">
@@ -178,6 +211,7 @@ export default function RegisterForm() {
               <div className="reg_btn_wrapper">
                 <button className="blue_btn open_signup">Sign Up</button>
               </div>
+              <DotLoader color="#1876f2" loading={loading} size={30} />
               {error && <div className="error_text">{error}</div>}
               {success && <div className="success_text">{success}</div>}
             </Form>

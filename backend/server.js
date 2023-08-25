@@ -18,7 +18,7 @@ app.use(express.json());
 //app.use("/api", UserRoutes);
 
 //routes
-readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
+readdirSync("./routes").map((r) => app.use("/", require("./routes/" + r)));
 
 //database
 mongoose

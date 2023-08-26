@@ -34,7 +34,8 @@ const userSchema = new mongoose.Schema(
     },
     picture: {
       type: String,
-      default: "",
+      default:
+        "https://cdn.vectorstock.com/i/preview-1x/70/84/default-avatar-profile-icon-symbol-for-website-vector-46547084.jpg",
       trim: true,
     },
     cover: {

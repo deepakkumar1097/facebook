@@ -3,16 +3,24 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import DotLoader from "react-spinners/DotLoader";
 import axios from "axios";
-import * as Yup from "yup";
 import cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 import RegisterInput from "../inputs/registerInput";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelct";
-export default function RegisterForm() {
+export default function RegisterForm({ setVisible }) {
+  const [user, setUser] = useState(userInfos);
+  const [dateError, setDateError] = useState("");
+  const [genderError, setGenderError] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -23,7 +31,7 @@ export default function RegisterForm() {
     bDay: new Date().getDate(),
     gender: "",
   };
-  const [user, setUser] = useState(userInfos);
+
   const {
     first_name,
     last_name,
@@ -34,6 +42,7 @@ export default function RegisterForm() {
     bDay,
     gender,
   } = user;
+
   const yearTemp = new Date().getFullYear();
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +54,7 @@ export default function RegisterForm() {
     return new Date(bYear, bMonth, 0).getDate();
   };
   const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
+
   const registerValidation = Yup.object({
     first_name: Yup.string()
       .required("What's your First name ?")
@@ -68,23 +78,22 @@ export default function RegisterForm() {
       .min(6, "Password must be atleast 6 characters.")
       .max(36, "Password can't be more than 36 characters"),
   });
-  const [dateError, setDateError] = useState("");
-  const [genderError, setGenderError] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
+
   const registerSubmit = async () => {
     try {
-      const { data } = await axios.post("http://localhost:7500/register", {
-        first_name,
-        last_name,
-        email,
-        password,
-        bYear,
-        bMonth,
-        bDay,
-        gender,
-      });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/register`,
+        {
+          first_name,
+          last_name,
+          email,
+          password,
+          bYear,
+          bMonth,
+          bDay,
+          gender,
+        }
+      );
       setError("");
       setSuccess(data.message);
       const { message, ...rest } = data;
@@ -103,7 +112,7 @@ export default function RegisterForm() {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i className="exit_icon" onClick={() => setVisible(false)}></i>
           <span>Sign Up</span>
           <span>it's quick and easy</span>
         </div>

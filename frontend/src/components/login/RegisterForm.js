@@ -10,6 +10,18 @@ import * as Yup from "yup";
 import RegisterInput from "../inputs/registerInput";
 import DateOfBirthSelect from "./DateOfBirthSelect";
 import GenderSelect from "./GenderSelct";
+
+const userInfos = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  password: "",
+  bYear: new Date().getFullYear(),
+  bMonth: new Date().getMonth() + 1,
+  bDay: new Date().getDate(),
+  gender: "",
+};
+
 export default function RegisterForm({ setVisible }) {
   const [user, setUser] = useState(userInfos);
   const [dateError, setDateError] = useState("");
@@ -20,18 +32,6 @@ export default function RegisterForm({ setVisible }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const userInfos = {
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    bYear: new Date().getFullYear(),
-    bMonth: new Date().getMonth() + 1,
-    bDay: new Date().getDate(),
-    gender: "",
-  };
-
   const {
     first_name,
     last_name,
